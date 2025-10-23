@@ -1,16 +1,22 @@
-const inputBtn = document.querySelector("#input-btn");
-
 let myLeads = [];
 
 const inputEl = document.querySelector("#input-el");
+const inputBtn = document.querySelector("#input-btn");
 
 const ulEl = document.querySelector("#ul-el");
 
+let LeadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+
+if(LeadsFromLocalStorage) {
+    myLeads = LeadsFromLocalStorage;
+    renderLeads();
+}
+
 inputBtn.addEventListener("click", ()=> {
     myLeads.push(inputEl.value);
-    // renderLead();
-    ulEl.innerHTML += `<li><a target="_blank" href="${inputEl.value}"> ${inputEl.value} </a></li>`;
     inputEl.value = '';
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+    renderLeads();
 })
 
 /*
@@ -20,12 +26,11 @@ function renderLead() {
 }
 */
 
-/*
 function renderLeads() {
     let listItems = "";
 
     for(let i=0; i<myLeads.length; i++) {
-        listItems += "<li>" + myLeads[i] + "</li>";
+        listItems += `<li><a target="_blank" href="${myLeads[i]}"> ${myLeads[i]} </a></li>`;
 
         // ulEl.innerHTML += "<li>" + myLeads[i] + "</li>";
 
@@ -35,4 +40,12 @@ function renderLeads() {
     }
     ulEl.innerHTML = listItems;
 }
-*/
+
+
+let deleteEl = document.getElementById("delete-btn");
+
+deleteEl.addEventListener("click", ()=> {
+    localStorage.clear();
+    myLeads = [];
+    renderLeads()
+})
