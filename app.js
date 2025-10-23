@@ -2,21 +2,20 @@ let myLeads = [];
 
 const inputEl = document.querySelector("#input-el");
 const inputBtn = document.querySelector("#input-btn");
-
 const ulEl = document.querySelector("#ul-el");
-
-let LeadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+const deleteEl = document.getElementById("delete-btn");
+const LeadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 
 if(LeadsFromLocalStorage) {
     myLeads = LeadsFromLocalStorage;
-    renderLeads();
+    renderLeads(myLeads);
 }
 
 inputBtn.addEventListener("click", ()=> {
     myLeads.push(inputEl.value);
     inputEl.value = '';
     localStorage.setItem("myLeads", JSON.stringify(myLeads));
-    renderLeads();
+    renderLeads(myLeads);
 })
 
 /*
@@ -26,11 +25,11 @@ function renderLead() {
 }
 */
 
-function renderLeads() {
+function renderLeads(leads) {
     let listItems = "";
 
-    for(let i=0; i<myLeads.length; i++) {
-        listItems += `<li><a target="_blank" href="${myLeads[i]}"> ${myLeads[i]} </a></li>`;
+    for(let i=0; i<leads.length; i++) {
+        listItems += `<li><a target="_blank" href="${leads[i]}"> ${leads[i]} </a></li>`;
 
         // ulEl.innerHTML += "<li>" + myLeads[i] + "</li>";
 
@@ -41,11 +40,8 @@ function renderLeads() {
     ulEl.innerHTML = listItems;
 }
 
-
-let deleteEl = document.getElementById("delete-btn");
-
 deleteEl.addEventListener("click", ()=> {
     localStorage.clear();
     myLeads = [];
-    renderLeads()
+    renderLeads(myLeads);
 })
